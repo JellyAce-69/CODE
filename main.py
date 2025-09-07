@@ -130,7 +130,7 @@ while running:
                 shape_y_down = False
 
     check_movement()
-    # After a certain time of no events, drop the shape
+    # After a certain time, drop the shape
     fall_time += clock.get_time()
     if fall_time >= 500:
         if can_move(current_shape, shape_x, shape_y + 1):
@@ -139,6 +139,8 @@ while running:
             place_shape()
         fall_time = 0
     screen.fill((0, 0, 0))
+
+    # If game over, red pixels of death muwahahahah
     if running == False:
         draw_game_over_glitch()
         pygame.time.wait(2000)
