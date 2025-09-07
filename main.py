@@ -54,7 +54,9 @@ def can_move(shape, x, y):
 
 
 def place_shape():
-    global current_shape, current_color, shape_x, shape_y, score, running
+    global current_shape, current_color, shape_x, shape_y, score, running, game_over
+
+    # Record the shape position in the grid
     for i, row in enumerate(current_shape):
         for j, cell in enumerate(row):
             if cell:
@@ -70,10 +72,10 @@ def place_shape():
     current_shape = random.choice(shapes)
     current_color = random.choice(colors)
     shape_x, shape_y = 3, 0
-    # Simple Game Over, draw test later
     if can_move(current_shape, shape_x, shape_y) == False:
         print("Game Over!")
         running = False
+        game_over = True
 
 
 # Proper Game Over Inspired Glitchy Ewan
@@ -104,6 +106,7 @@ def rotate(shape):
 
 running = True
 fall_time = 0
+game_over = False
 
 while running:
     # Handles key events
@@ -130,6 +133,7 @@ while running:
                 shape_y_down = False
 
     check_movement()
+
     # After a certain time, drop the shape
     fall_time += clock.get_time()
     if fall_time >= 500:
@@ -141,7 +145,12 @@ while running:
     screen.fill((0, 0, 0))
 
     # If game over, red pixels of death muwahahahah
-    if running == False:
+    if running == False and game_over == True:
+        # Kung gusto mo nung effect sa baba, uncomment this.
+        # for i, row in enumerate(grid):
+        #     for j, cell in enumerate(row):
+        #         if cell:
+        #             pygame.draw.rect(screen, cell, (j * 30, i * 30, 30, 30))
         draw_game_over_glitch()
         pygame.time.wait(2000)
         break
@@ -152,7 +161,7 @@ while running:
             if cell:
                 pygame.draw.rect(screen, cell, (j * 30, i * 30, 30, 30))
 
-    # Draw the shape current position
+    # Draw the current shape current position
     for i, row in enumerate(current_shape):
         for j, cell in enumerate(row):
             if cell:
