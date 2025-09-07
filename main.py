@@ -62,12 +62,19 @@ def place_shape():
             if cell:
                 grid[shape_y + i][shape_x + j] = current_color
 
-    # If TETRIS
+    # If cleared
+    empty = 0
+
     for i in range(19, -1, -1):
         if all(grid[i]):
             del grid[i]
-            grid.insert(0, [0 for _ in range(10)])
-            score += 100
+            empty += 1
+
+    for i in range(empty):
+        grid.insert(0, [0 for _ in range(10)])
+        score += 100
+
+    empty = 0
 
     current_shape = random.choice(shapes)
     current_color = random.choice(colors)
