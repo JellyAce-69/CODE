@@ -1,1 +1,2 @@
-Code na ninakaw ko! Fight me.
+FIRST TRY SIMPLE TETRIS 
+
