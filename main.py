@@ -31,7 +31,6 @@ colors = [
 
 current_shape = random.choice(shapes)
 current_color = random.choice(colors)
-glitch_bool = False
 shape_x, shape_y = 3, 0
 shape_x_left = False
 shape_x_right = False
