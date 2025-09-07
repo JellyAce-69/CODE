@@ -6,6 +6,7 @@ import random
 pygame.init()
 screen = pygame.display.set_mode((300, 600))
 clock = pygame.time.Clock()
+# 20 x 10 Grid
 grid = [[0 for _ in range(10)] for _ in range(20)]
 shapes = [
     [[1, 1, 1, 1]],
@@ -16,6 +17,8 @@ shapes = [
     [[1, 1, 0], [0, 1, 1]],
     [[0, 1, 1], [1, 1, 0]],
 ]
+RED = (255, 0, 0)
+
 colors = [
     (255, 0, 0),
     (0, 255, 0),
@@ -25,8 +28,10 @@ colors = [
     (0, 255, 255),
     (255, 165, 0),
 ]
+
 current_shape = random.choice(shapes)
 current_color = random.choice(colors)
+glitch_bool = False
 shape_x, shape_y = 3, 0
 shape_x_left = False
 shape_x_right = False
@@ -55,6 +60,8 @@ def place_shape():
         for j, cell in enumerate(row):
             if cell:
                 grid[shape_y + i][shape_x + j] = current_color
+
+    # If TETRIS
     for i in range(19, -1, -1):
         if all(grid[i]):
             del grid[i]
@@ -68,7 +75,17 @@ def place_shape():
     if can_move(current_shape, shape_x, shape_y) == False:
         print("Game Over!")
         running = False
-        pygame.time.wait(2000)
+
+
+# Proper Game Over Inspired Glitchy Ewan
+def draw_game_over_glitch():
+    for i, row in enumerate(grid):
+        for j, _ in enumerate(row):
+            glitch_bool = random.choice([True, False])
+            if glitch_bool:
+                pygame.draw.rect(screen, RED, (j * 30, i * 30, 30, 30))
+                pygame.display.flip()
+                pygame.time.wait(10)
 
 
 # Nilagay ko lang to para di ko na kailangan mag tap kaso mabilis, need to modify
@@ -123,6 +140,10 @@ while running:
             place_shape()
         fall_time = 0
     screen.fill((0, 0, 0))
+    if running == False:
+        draw_game_over_glitch()
+        pygame.time.wait(2000)
+        break
 
     # Draw the grid
     for i, row in enumerate(grid):
